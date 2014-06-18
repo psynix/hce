@@ -1,5 +1,10 @@
 module Hooroo
+
   describe Date do
+    def self.month_name_at(month)
+      Date::DAYS_IN_MONTHS.keys[month - 1].capitalize
+    end
+
     it 'errors without a argument' do
       expect { described_class.new }.to raise_error(ArgumentError)
     end
@@ -38,11 +43,11 @@ module Hooroo
       describe 'day' do
         describe 'for months with 31 days' do
           [1, 3, 5, 7, 8, 10, 12].each do |month|
-            it "errors with a month value less than 1 for #{Date::DAYS_IN_MONTHS[month - 1]}" do
+            it "errors with a month value less than 1 for #{month_name_at(month)}" do
               expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 2000")
             end
 
-            it "does not allow more than 31 days for month #{Date::DAYS_IN_MONTHS[month - 1]}" do
+            it "does not allow more than 31 days for month #{month_name_at(month)}" do
               date_string = '32 %02d 1970' % month
               expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 1970")
             end
@@ -51,11 +56,11 @@ module Hooroo
 
         describe 'for months with 30 days' do
           [4, 6, 9, 11].each do |month|
-            it "errors with a month value less than 1 for #{Date::DAYS_IN_MONTHS[month - 1]}" do
+            it "errors with a month value less than 1 for #{month_name_at(month)}" do
               expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 2000")
             end
 
-            it "does not allow more than 30 days for #{Date::DAYS_IN_MONTHS[month - 1]}" do
+            it "does not allow more than 30 days for #{month_name_at(month)}" do
               date_string = '31 %02d 1970' % month
               expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 1970")
             end
