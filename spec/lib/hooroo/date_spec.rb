@@ -38,11 +38,11 @@ module Hooroo
       describe 'day' do
         describe 'for months with 31 days' do
           [1, 3, 5, 7, 8, 10, 12].each do |month|
-            it "errors with a month value less than 1 for #{Date::MONTHS[month - 1]}" do
+            it "errors with a month value less than 1 for #{Date::DAYS_IN_MONTHS[month - 1]}" do
               expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 2000")
             end
 
-            it "does not allow more than 31 days for month #{Date::MONTHS[month - 1]}" do
+            it "does not allow more than 31 days for month #{Date::DAYS_IN_MONTHS[month - 1]}" do
               date_string = '32 %02d 1970' % month
               expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 1970")
             end
@@ -51,11 +51,11 @@ module Hooroo
 
         describe 'for months with 30 days' do
           [4, 6, 9, 11].each do |month|
-            it "errors with a month value less than 1 for #{Date::MONTHS[month - 1]}" do
+            it "errors with a month value less than 1 for #{Date::DAYS_IN_MONTHS[month - 1]}" do
               expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 2000")
             end
 
-            it "does not allow more than 30 days for #{Date::MONTHS[month - 1]}" do
+            it "does not allow more than 30 days for #{Date::DAYS_IN_MONTHS[month - 1]}" do
               date_string = '31 %02d 1970' % month
               expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 1970")
             end
@@ -87,10 +87,9 @@ module Hooroo
             # All leap years between 1900 and 2010
             let(:all_leap_years) do
               [
-                  1904, 1908, 1912, 1916, 1920, 1924, 1928,
-                  1932, 1936, 1940, 1944, 1948, 1952, 1956,
-                  1960, 1964, 1968, 1972, 1976, 1980, 1984,
-                  1988, 1992, 1996, 2000, 2004, 2008
+                  1904, 1908, 1912, 1916, 1920, 1924, 1928, 1932, 1936, 1940,
+                  1944, 1948, 1952, 1956, 1960, 1964, 1968, 1972, 1976, 1980,
+                  1984, 1988, 1992, 1996, 2000, 2004, 2008
               ]
             end
 
@@ -141,7 +140,7 @@ module Hooroo
           expect(described_class.new(date_string).days_since_epoch).to eq(365)
         end
 
-        it 'returns 366 for 1st Jan 1901' do
+        it 'returns 366 for 2nd Jan 1901' do
           date_string = '02 01 1901'
           expect(described_class.new(date_string).days_since_epoch).to eq(366)
         end
@@ -158,12 +157,12 @@ module Hooroo
       end
 
       context 'leap years in the future' do
-        it 'returns 1460 for 1st Jan 1904 (a leap year)' do
+        it 'returns 1460 for 1st Jan 1904' do
           date_string = '01 01 1904'
           expect(described_class.new(date_string).days_since_epoch).to eq(1460)
         end
 
-        it 'returns 1461 for 1st Jan 1904' do
+        it 'returns 1461 for 2nd Jan 1904' do
           date_string = '02 01 1904'
           expect(described_class.new(date_string).days_since_epoch).to eq(1461)
         end
