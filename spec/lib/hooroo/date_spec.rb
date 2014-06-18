@@ -36,24 +36,29 @@ module Hooroo
       end
 
       describe 'day' do
+        describe 'for months with 31 days' do
+          [1, 3, 5, 7, 8, 10, 12].each do |month|
+            it "errors with a month value less than 1 for #{Date::MONTHS[month - 1]}" do
+              expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 2000")
+            end
 
-        it 'errors with a month value less than 1' do
-          expect { described_class.new('00 01 2000') }.to raise_error(DateOutOfRangeError, 'Day must be between 1 and 31 for month 1 of year 2000')
-        end
-
-        it 'does not allow more than 31 days for month #{month}' do
-          months_with_31_days = [1, 3, 5, 7, 8, 10, 12]
-          months_with_31_days.each do |month|
-            date_string = '32 %02d 1970' % month
-            expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 1970")
+            it "does not allow more than 31 days for month #{Date::MONTHS[month - 1]}" do
+              date_string = '32 %02d 1970' % month
+              expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 31 for month #{month} of year 1970")
+            end
           end
         end
 
-        it 'does not allow more than 30 days for months that only have 30 days' do
-          months_with_30_days = [4, 6, 9, 11]
-          months_with_30_days.each do |month|
-            date_string = '31 %02d 1970' % month
-            expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 1970")
+        describe 'for months with 30 days' do
+          [4, 6, 9, 11].each do |month|
+            it "errors with a month value less than 1 for #{Date::MONTHS[month - 1]}" do
+              expect { described_class.new('00 %02d 2000' % month) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 2000")
+            end
+
+            it "does not allow more than 30 days for #{Date::MONTHS[month - 1]}" do
+              date_string = '31 %02d 1970' % month
+              expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 30 for month #{month} of year 1970")
+            end
           end
         end
 
@@ -103,6 +108,74 @@ module Hooroo
               end
             end
           end
+        end
+      end
+    end
+
+    describe '#days_since_epoch' do
+      describe 'same year as epoch' do
+        it 'returns 0 for 1st Jan 1900' do
+          date_string = '01 01 1900'
+          expect(described_class.new(date_string).days_since_epoch).to eq(0)
+        end
+
+        it 'returns 1 for 2nd Jan 1900' do
+          date_string = '02 01 1900'
+          expect(described_class.new(date_string).days_since_epoch).to eq(1)
+        end
+
+        it 'returns 59 for 1st Mar 1900' do
+          date_string = '01 03 1900'
+          expect(described_class.new(date_string).days_since_epoch).to eq(59)
+        end
+
+        it 'returns 1825 for 31st Dec 1904' do
+          date_string = '31 12 1900'
+          expect(described_class.new(date_string).days_since_epoch).to eq(364)
+        end
+      end
+
+      describe 'common years in the future' do
+        it 'returns 365 for 1st Jan 1901' do
+          date_string = '01 01 1901'
+          expect(described_class.new(date_string).days_since_epoch).to eq(365)
+        end
+
+        it 'returns 366 for 1st Jan 1901' do
+          date_string = '02 01 1901'
+          expect(described_class.new(date_string).days_since_epoch).to eq(366)
+        end
+
+        it 'returns 424 for 1st Mar 1900' do
+          date_string = '01 03 1901'
+          expect(described_class.new(date_string).days_since_epoch).to eq(424)
+        end
+
+        it 'returns 720 for 31st Dec 1904' do
+          date_string = '31 12 1901'
+          expect(described_class.new(date_string).days_since_epoch).to eq(729)
+        end
+      end
+
+      context 'leap years in the future' do
+        it 'returns 1460 for 1st Jan 1904 (a leap year)' do
+          date_string = '01 01 1904'
+          expect(described_class.new(date_string).days_since_epoch).to eq(1460)
+        end
+
+        it 'returns 1461 for 1st Jan 1904' do
+          date_string = '02 01 1904'
+          expect(described_class.new(date_string).days_since_epoch).to eq(1461)
+        end
+
+        it 'returns 1520 for 1st Mar 1904' do
+          date_string = '01 03 1904'
+          expect(described_class.new(date_string).days_since_epoch).to eq(1520)
+        end
+
+        it 'returns 1825 for 31st Dec 1904' do
+          date_string = '31 12 1904'
+          expect(described_class.new(date_string).days_since_epoch).to eq(1825)
         end
       end
     end

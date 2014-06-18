@@ -7,23 +7,24 @@ module Hooroo
     DATE_STRING_REGEXP = /(?<day>\d{2}) (?<month>\d{2}) (?<year>\d{4})/
 
     MONTHS = %i(january february march april may june july august september october november december)
-    DAYS_IN_MONTH = {
-        january:   31,
-        february:  ->(year) { is_leap_year?(year) ? 29 : 28 },
-        march:     31,
-        april:     30,
-        may:       31,
-        june:      30,
-        july:      31,
-        august:    31,
-        september: 30,
-        october:   31,
-        november:  30,
-        december:  31
-    }
+    DAYS_IN_MONTH = [
+        31,                                           # January
+        ->(year) { is_leap_year?(year) ? 29 : 28 },   # February
+        31,                                           # March
+        30,                                           # April
+        31,                                           # May
+        30,                                           # June
+        31,                                           # July
+        31,                                           # August
+        30,                                           # September
+        31,                                           # October
+        30,                                           # November
+        31                                            # December
+    ]
 
-    VALID_MONTH_RANGE  = Range.new(1, MONTHS.length)
-    VALID_YEAR_RANGE   = Range.new(1900, 2010)
+    EPOCH_YEAR        = 1900
+    VALID_MONTH_RANGE = Range.new(1, DAYS_IN_MONTH.length)
+    VALID_YEAR_RANGE  = Range.new(EPOCH_YEAR, 2010)
 
     attr_reader :day, :month, :year
 
@@ -35,6 +36,10 @@ module Hooroo
       @year  = validated_year   parsed_date[:year ]
       @month = validated_month  parsed_date[:month]
       @day   = validated_day    parsed_date[:day  ]
+    end
+
+    def days_since_epoch
+      Range.new(EPOCH_YEAR, @year, true).reduce(0) { |sum, y| sum += days_in_year(y) } + days_since_start_of_year
     end
 
     def to_s
@@ -50,6 +55,26 @@ module Hooroo
         return false  unless  (year % 400).zero?    # Common year
         true                                        # Leap year
       end
+    end
+
+    def days_in_year(year)
+      DAYS_IN_MONTH.reduce(0) do |sum, month_days|
+        sum += if month_days.respond_to?(:call)
+                 month_days.call(year)
+               else
+                 month_days
+               end
+      end
+    end
+
+    def days_since_start_of_year
+      DAYS_IN_MONTH[0...(@month - 1)].reduce(0) do |sum, month_days|
+        sum += if month_days.respond_to?(:call)
+                 month_days.call(@year)
+               else
+                 month_days
+               end
+      end + day - 1
     end
 
     def validated_year(year)
@@ -76,8 +101,7 @@ module Hooroo
     end
 
     def day_in_month_range(month)
-      month_name    = MONTHS[month - 1]
-      days_in_month = DAYS_IN_MONTH[month_name]
+      days_in_month = DAYS_IN_MONTH[month - 1]
 
       if days_in_month.respond_to?(:call)
         Range.new(1, days_in_month.call(year))
