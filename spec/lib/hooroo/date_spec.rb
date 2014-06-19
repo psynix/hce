@@ -189,6 +189,19 @@ module Hooroo
       end
     end
 
+    describe '#-' do
+      let(:start_date)  { described_class.new('29 05 1971') }
+      let(:end_date)    { described_class.new('01 07 1990') }
+
+      it 'computes the correct difference' do
+        expect(end_date - start_date).to eq(6973)
+      end
+
+      it 'computes the difference regardless of order' do
+        expect(start_date - end_date).to eq(end_date - start_date)
+      end
+    end
+
     describe '#to_s' do
       let(:input_date) { '01 01 1970' }
 

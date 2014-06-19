@@ -34,6 +34,10 @@ module Hooroo
       (EPOCH_START_YEAR...@year).map { |year| total_days_in_year(year) }.sum + days_since_start_of_year
     end
 
+    def -(other)
+      (days_since_epoch - other.days_since_epoch).abs
+    end
+
     def <=>(other)
       days_since_epoch <=> other.days_since_epoch
     end
