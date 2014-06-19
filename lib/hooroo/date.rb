@@ -3,9 +3,11 @@ module Hooroo
   class DateOutOfRangeError < StandardError; end
 
   class Date
+    include Comparable
+
     using Utilities
 
-    DATE_STRING_REGEXP = /(?<day>\d{2}) (?<month>\d{2}) (?<year>\d{4})/
+    DATE_STRING_REGEXP = /\A(?<day>\d{2}) (?<month>\d{2}) (?<year>\d{4})\Z/
 
     DAYS_IN_MONTHS = {
         january: 31, february: '28 or 29', march: 31, april: 30, may: 31, june: 30,
@@ -32,24 +34,28 @@ module Hooroo
       (EPOCH_START_YEAR...@year).map { |year| total_days_in_year(year) }.sum + days_since_start_of_year
     end
 
+    def <=>(other)
+      days_since_epoch <=> other.days_since_epoch
+    end
+
     def to_s
       '%02d %02d %4d' % [day, month, year]
     end
 
     private
 
-    def value_valid_for_range(label, value_string, range)
+    def validated_value_for_range(label, value_string, range)
       non_octal_integer_value_for(value_string).tap do |value|
         raise DateOutOfRangeError, "#{label} '#{value}' is not between #{range.first} and #{range.last}" unless range.include?(value)
       end
     end
 
     def validated_year(year_string)
-      value_valid_for_range('Year', year_string, VALID_YEAR_RANGE)
+      validated_value_for_range('Year', year_string, VALID_YEAR_RANGE)
     end
 
     def validated_month(month_string)
-      value_valid_for_range('Month', month_string, VALID_MONTH_RANGE)
+      validated_value_for_range('Month', month_string, VALID_MONTH_RANGE)
     end
 
     def validated_day(day)

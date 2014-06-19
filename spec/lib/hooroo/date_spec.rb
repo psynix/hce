@@ -19,6 +19,11 @@ module Hooroo
       expect { described_class.new(date_string) }.to_not raise_error
     end
 
+    it 'is a orderable' do
+      date_string = '29 05 1971'
+      expect(described_class.new(date_string)).to be_a_kind_of(Comparable)
+    end
+
     describe 'date constituent parts validations' do
       describe 'year' do
         it 'errors with a date before 1900' do
@@ -98,14 +103,14 @@ module Hooroo
               ]
             end
 
-            it 'permits a day up to day 29 for all leap years' do
+            it 'permits a day up to day 29' do
               all_leap_years.each do |year|
                 date_string = "29 02 #{year}"
                 expect { described_class.new(date_string) }.to_not raise_error
               end
             end
 
-            it 'permits a day up to day 29 for all leap years' do
+            it 'prohibits day value larger than 29' do
               all_leap_years.each do |year|
                 date_string = "30 02 #{year}"
                 expect { described_class.new(date_string) }.to raise_error(DateOutOfRangeError, "Day must be between 1 and 29 for month 2 of year #{year}")
