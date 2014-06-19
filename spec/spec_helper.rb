@@ -1,6 +1,8 @@
-$: << File.expand_path('../lib', __dir__)
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
-require_relative '../lib/hooroo'
+$: << File.expand_path('../lib', __dir__)
+require 'hooroo'
 
 RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience
