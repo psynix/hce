@@ -15,14 +15,15 @@ module Hooroo
     using Utilities
 
     DATE_STRING_REGEXP = /(?<day>\d{2}) (?<month>\d{2}) (?<year>\d{4})/
+
     DAYS_IN_MONTHS = {
         january: 31, february: '28 or 29', march: 31, april: 30, may: 31, june: 30,
         july: 31, august: 31, september: 30, october: 31, november: 30, december: 31
     }
 
-    EPOCH_YEAR        = 1900
+    EPOCH_START_YEAR  = 1900
     VALID_MONTH_RANGE = Range.new(1, 12)
-    VALID_YEAR_RANGE  = Range.new(EPOCH_YEAR, 2010)
+    VALID_YEAR_RANGE  = Range.new(EPOCH_START_YEAR, 2010)
 
     attr_reader :day, :month, :year
 
@@ -37,7 +38,7 @@ module Hooroo
     end
 
     def days_since_epoch
-      (EPOCH_YEAR...@year).map { |year| total_days_in_year(year) }.sum + days_since_start_of_year
+      (EPOCH_START_YEAR...@year).map { |year| total_days_in_year(year) }.sum + days_since_start_of_year
     end
 
     def to_s
