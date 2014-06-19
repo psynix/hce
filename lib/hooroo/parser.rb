@@ -5,7 +5,7 @@ module Hooroo
     def initialize(input_line)
       parsed_line = INPUT_LINE_REGEXP.match(input_line)
 
-      raise MalformedDateStringError if parsed_line.nil?
+      raise MalformedDateStringError, "The input '#{input_line && input_line.strip}' is missing one or both dates" if parsed_line.nil?
 
       @start_date = Date.new(parsed_line[:start])
       @end_date   = Date.new(parsed_line[:end])

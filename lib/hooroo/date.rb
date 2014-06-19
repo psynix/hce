@@ -23,7 +23,7 @@ module Hooroo
     def initialize(date_string)
       parsed_date = DATE_STRING_REGEXP.match(date_string)
 
-      raise MalformedDateStringError if parsed_date.nil?
+      raise MalformedDateStringError, "Unable to parse '#{date_string}' as a date" if parsed_date.nil?
 
       @year  = validated_year parsed_date[:year]
       @month = validated_month parsed_date[:month]
