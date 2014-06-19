@@ -19,11 +19,6 @@ module Hooroo
       expect { described_class.new(date_string) }.to_not raise_error
     end
 
-    it 'is a orderable' do
-      date_string = '29 05 1971'
-      expect(described_class.new(date_string)).to be_a_kind_of(Comparable)
-    end
-
     describe 'date constituent parts validations' do
       describe 'year' do
         it 'errors with a date before 1900' do
@@ -190,8 +185,8 @@ module Hooroo
     end
 
     describe '#-' do
-      let(:start_date)  { described_class.new('29 05 1971') }
-      let(:end_date)    { described_class.new('01 07 1990') }
+      let(:start_date) { described_class.new('29 05 1971') }
+      let(:end_date) { described_class.new('01 07 1990') }
 
       it 'computes the correct difference' do
         expect(end_date - start_date).to eq(6973)
@@ -199,6 +194,20 @@ module Hooroo
 
       it 'computes the difference regardless of order' do
         expect(start_date - end_date).to eq(end_date - start_date)
+      end
+    end
+
+    describe '#<=>' do
+      let(:start_date) { described_class.new('29 05 1971') }
+      let(:end_date) { described_class.new('01 07 1990') }
+
+      it 'is a orderable' do
+        date_string = '29 05 1971'
+        expect(described_class.new(date_string)).to be_a_kind_of(Comparable)
+      end
+
+      it 'correctly marks start_date as before end_date' do
+        expect(start_date < end_date).to be_truthy
       end
     end
 
