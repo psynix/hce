@@ -184,12 +184,6 @@ module Hooroo
       end
     end
 
-    describe '#to_int' do
-      it 'is an alias for #days_since_epoch' do
-
-      end
-    end
-    
     describe '#to_s' do
       let(:input_date) { '01 01 1970' }
 

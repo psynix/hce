@@ -1,5 +1,5 @@
 module Hooroo
-Mo  class MalformedDateStringError < StandardError; end
+  class MalformedDateStringError < StandardError; end
   class DateOutOfRangeError < StandardError; end
 
   class Date
