@@ -1,17 +1,6 @@
 module Hooroo
-
-  module Utilities
-    refine Array do
-      def sum
-        (dup << 0).inject(:+)
-      end
-    end
-  end
-
-  class MalformedDateStringError < StandardError;
-  end
-  class DateOutOfRangeError < StandardError;
-  end
+Mo  class MalformedDateStringError < StandardError; end
+  class DateOutOfRangeError < StandardError; end
 
   class Date
     using Utilities
@@ -49,18 +38,18 @@ module Hooroo
 
     private
 
-    def validated_value_for_range(label, value_string, range)
+    def value_valid_for_range(label, value_string, range)
       non_octal_integer_value_for(value_string).tap do |value|
         raise DateOutOfRangeError, "#{label} '#{value}' is not between #{range.first} and #{range.last}" unless range.include?(value)
       end
     end
 
     def validated_year(year_string)
-      validated_value_for_range('Year', year_string, VALID_YEAR_RANGE)
+      value_valid_for_range('Year', year_string, VALID_YEAR_RANGE)
     end
 
     def validated_month(month_string)
-      validated_value_for_range('Month', month_string, VALID_MONTH_RANGE)
+      value_valid_for_range('Month', month_string, VALID_MONTH_RANGE)
     end
 
     def validated_day(day)
