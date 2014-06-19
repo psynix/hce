@@ -1,0 +1,2 @@
+describe Hooroo do
+end
