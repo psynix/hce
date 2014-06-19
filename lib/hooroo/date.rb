@@ -8,8 +8,10 @@ module Hooroo
     end
   end
 
-  class MalformedDateStringError < StandardError; end
-  class DateOutOfRangeError < StandardError; end
+  class MalformedDateStringError < StandardError;
+  end
+  class DateOutOfRangeError < StandardError;
+  end
 
   class Date
     using Utilities
@@ -18,7 +20,7 @@ module Hooroo
 
     DAYS_IN_MONTHS = {
         january: 31, february: '28 or 29', march: 31, april: 30, may: 31, june: 30,
-        july: 31, august: 31, september: 30, october: 31, november: 30, december: 31
+        july:    31, august: 31, september: 30, october: 31, november: 30, december: 31
     }
 
     EPOCH_START_YEAR  = 1900
@@ -32,9 +34,9 @@ module Hooroo
 
       raise MalformedDateStringError if parsed_date.nil?
 
-      @year  = validated_year   parsed_date[:year ]
-      @month = validated_month  parsed_date[:month]
-      @day   = validated_day    parsed_date[:day  ]
+      @year  = validated_year parsed_date[:year]
+      @month = validated_month parsed_date[:month]
+      @day   = validated_day parsed_date[:day]
     end
 
     def days_since_epoch
@@ -47,16 +49,18 @@ module Hooroo
 
     private
 
-    def validated_year(year)
-      non_octal_integer_value_for(year).tap do |value|
-        raise DateOutOfRangeError, "Year '#{value}' is not between #{VALID_YEAR_RANGE.first} and #{VALID_YEAR_RANGE.last}" unless VALID_YEAR_RANGE.include?(value)
+    def validated_value_for_range(label, value_string, range)
+      non_octal_integer_value_for(value_string).tap do |value|
+        raise DateOutOfRangeError, "#{label} '#{value}' is not between #{range.first} and #{range.last}" unless range.include?(value)
       end
     end
 
-    def validated_month(month)
-      non_octal_integer_value_for(month).tap do |value|
-        raise DateOutOfRangeError, "Month '#{value}' is not between #{VALID_MONTH_RANGE.first} and #{VALID_MONTH_RANGE.last}" unless VALID_MONTH_RANGE.include?(value)
-      end
+    def validated_year(year_string)
+      validated_value_for_range('Year', year_string, VALID_YEAR_RANGE)
+    end
+
+    def validated_month(month_string)
+      validated_value_for_range('Month', month_string, VALID_MONTH_RANGE)
     end
 
     def validated_day(day)
@@ -79,10 +83,10 @@ module Hooroo
     end
 
     def is_leap_year?(year)
-      return false  unless  (year %   4).zero?    # Common year
-      return true   unless  (year % 100).zero?    # Leap year
-      return false  unless  (year % 400).zero?    # Common year
-      true                                        # Leap year
+      return false unless  (year % 4).zero? # Common year
+      return true unless  (year % 100).zero? # Leap year
+      return false unless  (year % 400).zero? # Common year
+      true # Leap year
     end
 
     def total_days_in_year(year)
