@@ -1,3 +1,5 @@
+[![Build Status](https://api.shippable.com/projects/540e37e425952a0313800557/badge/master)](https://www.shippable.com/projects/540e37e425952a0313800557/builds/history)
+
 # The Date Challenge
 
 ## Requirements
