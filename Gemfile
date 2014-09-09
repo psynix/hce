@@ -5,7 +5,7 @@ gem 'rake', '~> 10.3.2'
 
 group :development do
   gem 'rspec', '~> 3.0'
-  gem 'ci_reporter'
+  gem 'ci_reporter_rspec'
   gem 'simplecov'
   gem 'simplecov-csv'
   gem 'guard-rspec', require: false
