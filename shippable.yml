@@ -1,4 +1,14 @@
-build_environment: ubuntu1204
+build_environment: ubuntu1404
 language: ruby
+
 rvm:
   - 2.1.2
+
+env:
+  - CI_REPORTS=shippable/testresults COVERAGE_REPORTS=shippable/codecoverage
+
+before_script:
+  - mkdir -p shippable/testresults
+
+script:
+  - rspec -f JUnit -o shippable/testresults/results.xml
