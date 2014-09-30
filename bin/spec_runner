@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! "$PORT" ]
+then
+    DOCEPTION_CONTAINERS=`cat /proc/cpuinfo | awk '/^processor/{print $3}' | tail -1`
+fi
+
 /usr/bin/docker pull busybox
 
 for i in $(seq 1 $DOCEPTION_CONTAINERS); do
