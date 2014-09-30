@@ -1,4 +1,3 @@
-[![Build Status](https://api.shippable.com/projects/540e37e425952a0313800557/badge/master)](https://www.shippable.com/projects/540e37e425952a0313800557/builds/history)
 ![Build status](https://badge.buildbox.io/8055270c60a8aa399f33691ce7f6c02f2c60040a9c692f9b97.svg)
 
 # The Date Challenge
