@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "Number of doception containers: ${DOCEPTION_CONTAINERS}"
