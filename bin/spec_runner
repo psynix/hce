@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! "$PORT" ]
+if [ ! "$DOCEPTION_CONTAINERS" ]
 then
     DOCEPTION_CONTAINERS=`nproc`
 fi
