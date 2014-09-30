@@ -1,3 +1,8 @@
 #!/bin/bash
 
-echo "Number of doception containers: ${DOCEPTION_CONTAINERS}"
+/usr/bin/docker pull busybox
+
+for i in {seq 1 $DOCEPTION_CONTAINERS}; do
+    echo "Starting container #${i}"
+    /usr/bin/docker run busybox echo hello world $i;
+done
