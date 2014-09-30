@@ -2,7 +2,7 @@
 
 if [ ! "$PORT" ]
 then
-    DOCEPTION_CONTAINERS=`grep -c ^processor /proc/cpuinfo`
+    DOCEPTION_CONTAINERS=`nproc`
 fi
 
 /usr/bin/docker pull busybox
