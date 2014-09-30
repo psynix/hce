@@ -5,11 +5,11 @@ then
     DOCEPTION_CONTAINERS=`nproc`
 fi
 
+echo -e "--- Pull in busybox image"
 /usr/bin/docker pull busybox
 
+echo -e "--- Running ${DOCEPTION_CONTAINERS} parallel spec runners"
 for i in $(seq 1 $DOCEPTION_CONTAINERS); do
-    echo "Starting container #${i}"
+    echo -e "\tStarting container #${i}"
     /usr/bin/docker run busybox echo hello world $i;
 done
-
-env
