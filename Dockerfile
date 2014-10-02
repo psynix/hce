@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:14.04.1
 MAINTAINER johnm@hooroo.com
 
 # Install package utils
@@ -12,7 +12,6 @@ RUN apt-get -y install ruby2.1=2.1.2-1bbox1~trusty2 ruby2.1-dev=2.1.2-1bbox1~tru
 
 # Make sure to remove parallel config
 RUN apt-get -y install parallel
-RUN rm /etc/parallel/config
 
 RUN gem install bundler rake
 
