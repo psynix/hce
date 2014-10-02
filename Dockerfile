@@ -19,4 +19,4 @@ RUN gem install bundler rake
 VOLUME /srv/application
 
 WORKDIR /srv/application
-ENTRYPOINT ["bundle exec rspec"]
+CMD bundle exec rspec
