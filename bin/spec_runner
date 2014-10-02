@@ -11,7 +11,8 @@ then
     DOCEPTION_CONTAINERS=`nproc`
 fi
 
-opts="-v ${`pwd`}:/srv/application -w /srv/application ${DOCKER_IMAGE_TAG}"
+PWD=`readlink -f .`
+opts="-v ${PWD}:/srv/application -w /srv/application ${DOCKER_IMAGE_TAG}"
 
 # Bundle the gems
 docker $opts bundle install --verbose --deployment -j $DOCEPTION_CONTAINERS
