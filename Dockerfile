@@ -1,6 +1,7 @@
 FROM ubuntu:14.04.1
 MAINTAINER johnm@hooroo.com
 
+RUN uname -a
 RUN apt-get -y install software-properties-common
 RUN add-apt-repository -y ppa:brightbox/ruby-ng
 RUN apt-get -y update
