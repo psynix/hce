@@ -3,7 +3,7 @@ MAINTAINER johnm@hooroo.com
 
 # Install package utils
 RUN apt-get -y update
-RUN apt-get -y install software-properties-common python-software-properties
+RUN apt-get -y install software-properties-common python-software-properties build-essential
 
 # Install Ruby2.1.2
 RUN add-apt-repository -y ppa:brightbox/ruby-ng
