@@ -14,5 +14,5 @@ fi
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 for i in $(seq 1 $DOCEPTION_CONTAINERS); do
     echo -e "\tStarting container #${i}"
-    docker run $DOCKER_IMAGE_TAG echo "Hello from sub-container #{$i}"
+    docker run $DOCKER_IMAGE_TAG -v .:/srv/application bundle install && rspec
 done
