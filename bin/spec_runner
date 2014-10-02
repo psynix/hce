@@ -14,7 +14,7 @@ fi
 PWD=`readlink -f .`
 opts="-v ${PWD}:/srv/application -w /srv/application ${DOCKER_IMAGE_TAG}"
 
-# Bundle the gems
+echo -e "+++ install gems"
 docker $opts bundle install --verbose --deployment -j $DOCEPTION_CONTAINERS
 
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
@@ -22,4 +22,4 @@ echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 #    echo -e "\tStarting container #${i}"
 #    find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts bundle exec rspec
 #done
-find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts echo "Hello, world!"
+find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts

@@ -17,3 +17,6 @@ RUN gem install bundler rake
 
 # Create a mount point for the application
 VOLUME /srv/application
+
+WORKDIR /srv/application
+ENTRYPOINT ["bundle exec rspec"]
