@@ -17,8 +17,8 @@ opts="-v ${`pwd`}:/srv/application -w /srv/application ${DOCKER_IMAGE_TAG}"
 docker $opts bundle install --verbose --deployment -j $DOCEPTION_CONTAINERS
 
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
-for i in $(seq 1 $DOCEPTION_CONTAINERS); do
-    echo -e "\tStarting container #${i}"
-    find spec -iname "*_spec.rb"
-    # | /usr/bin/parallel -X docker $opts bundle exec rspec
-done
+#for i in $(seq 1 $DOCEPTION_CONTAINERS); do
+#    echo -e "\tStarting container #${i}"
+#    find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts bundle exec rspec
+#done
+find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts bundle exec rspec
