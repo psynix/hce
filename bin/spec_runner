@@ -22,4 +22,4 @@ echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 #    echo -e "\tStarting container #${i}"
 #    find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts bundle exec rspec
 #done
-find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts bundle exec rspec
+find spec -iname "*_spec.rb" | /usr/bin/parallel -X docker $opts echo "Hello, world!"
