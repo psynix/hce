@@ -1,7 +1,9 @@
 #!/bin/bash
 
-#echo -e "--- pull in busybox image"
-#/usr/bin/docker pull busybox
+DOCKER_IMAGE_TAG="${BUILDBOX_PROJECT_SLUG}:${BUILDBOX_BUILD_ID}"
+
+echo -e "--- pull in busybox image"
+/usr/bin/docker build --tag=$DOCKER_IMAGE_TAG .
 
 # Default number of containers to number of processors
 if [ ! "$DOCEPTION_CONTAINERS" ]
@@ -12,5 +14,5 @@ fi
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 for i in $(seq 1 $DOCEPTION_CONTAINERS); do
     echo -e "\tStarting container #${i}"
-    /usr/bin/docker run ubuntu:14.04.1 echo hello world $i;
+    /usr/bin/docker run $DOCKER_IMAGE_TAG echo "Hello from sub-container #{i}"
 done

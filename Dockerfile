@@ -1,2 +1,3 @@
-FROM vettl/amazon-linux:2014.03
+FROM ubuntu:14.04.1
 MAINTAINER johnm@hooroo.com
+
