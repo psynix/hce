@@ -14,5 +14,6 @@ fi
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 for i in $(seq 1 $DOCEPTION_CONTAINERS); do
     echo -e "\tStarting container #${i}"
-    docker run -v `pwd`:/srv/application -w /srv/application $DOCKER_IMAGE_TAG bundle install --deployment && rspec
+    docker run -v `pwd`:/srv/application -w /srv/application $DOCKER_IMAGE_TAG \
+        bundle install --deployment && bundle exec rspec
 done
