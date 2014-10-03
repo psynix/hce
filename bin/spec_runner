@@ -15,7 +15,7 @@ PWD=`readlink -f .`
 opts="-v ${PWD}:/srv/application -w /srv/application ${DOCKER_IMAGE_TAG}"
 
 echo -e "--- install project gems"
-docker run $opts bundle install --deployment -j $DOCEPTION_CONTAINERS --quiet
+docker run $opts bundle install -j $DOCEPTION_CONTAINERS --quiet
 
 echo -e "+++ initiate parallel spec run with ${DOCEPTION_CONTAINERS}"
 find spec -iname "*_spec.rb" | /usr/bin/parallel --verbose -j${DOCEPTION_CONTAINERS} -X sudo docker run $opts rspec
