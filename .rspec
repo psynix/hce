@@ -1,4 +1,4 @@
 --color
 --require spec_helper
 --profile 5
---format documentation
+--format json
